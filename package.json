@@ -1,0 +1,25 @@
+{
+  "name": "gems",
+  "version": "0.1.0",
+  "description": "GEMS library",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amergint/gems.git"
+  },
+  "keywords": [
+    "GEMS",
+    "OMG",
+    "amergint",
+    "AMERGINT"
+  ],
+  "author": "Luis Rodriguez <luis@amergint.com> (http://www.amergint.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amergint/gems/issues"
+  },
+  "homepage": "https://github.com/amergint/gems#readme"
+}
