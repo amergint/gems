@@ -1,6 +1,6 @@
 {
   "target": "Tlm0/FrameSync0",
-  "parameters": {
+  "params": {
     "lockState": "LOCKED"
   }
 }

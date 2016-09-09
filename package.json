@@ -4,7 +4,8 @@
   "description": "GEMS library",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha src/index.test.js -w",
+    "test:single": "istanbul cover -x *.test.js _mocha -- -R spec src/index.test.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,10 @@
   "bugs": {
     "url": "https://github.com/amergint/gems/issues"
   },
-  "homepage": "https://github.com/amergint/gems#readme"
+  "homepage": "https://github.com/amergint/gems#readme",
+  "devDependencies": {
+    "chai": "3.5.0",
+    "istanbul": "0.4.5",
+    "mocha": "3.0.2"
+  }
 }

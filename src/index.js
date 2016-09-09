@@ -1,4 +1,4 @@
-var getConfigResponse = require('./getConfigResponse.json')
+var getConfigResponse = require('./getConfigResponse.json');
 
 module.exports = {
     targets: "Tlm0/FrameSync0",
