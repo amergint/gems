@@ -6,10 +6,13 @@
   "scripts": {
     "check-coverage": "nyc check-coverage --statements 100 --functions 100 --lines 100",
     "watch:test": "npm t -- -w",
-    "test": "mocha src/index.test.js --compilers js:babel-register",
+    "test": "tape src/tapeTest.js -r babel-register | faucet",
+    "test-browser": "browserify -t babelify src/tapeTest.js | testling | faucet",
+    "testold": "mocha src/index.test.js --compilers js:babel-register",
     "cover": "nyc npm t",
-    "prebuild": "rimraf dist",
-    "build": "babel --copy-files --out-dir dist --ignore *.test.js src && browserify -t babelify dist/testingBrowserify.js -o dist/bundle.js"
+    "prebuild": "grunt clean",
+    "build": "grunt build",
+    "buildold": "babel --copy-files --out-dir dist --ignore *.test.js src && browserify -t babelify dist/testingBrowserify.js -o dist/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -39,12 +42,19 @@
     "babelify": "7.3.0",
     "chai": "3.5.0",
     "ghooks": "1.3.2",
+    "grunt": "1.0.1",
+    "grunt-babel": "6.0.0",
+    "grunt-browserify": "5.0.0",
+    "grunt-contrib-clean": "1.0.0",
+    "grunt-contrib-copy": "1.0.0",
+    "grunt-contrib-watch": "1.0.0",
     "istanbul": "0.4.5",
     "mocha": "3.0.2",
     "nock": "8.0.0",
     "nyc": "8.1.0",
     "request": "2.74.0",
-    "rimraf": "2.5.4"
+    "rimraf": "2.5.4",
+    "tape": "4.6.0"
   },
   "config": {
     "ghooks": {
