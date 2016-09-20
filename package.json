@@ -6,7 +6,7 @@
   "scripts": {
     "check-coverage": "nyc check-coverage --statements 100 --functions 100 --lines 100",
     "watch:test": "npm t -- -w",
-    "test": "tape src/tapeTest.js -r babel-register | faucet",
+    "test": "tape src/tapeTest.js -r babel-register ",
     "test-browser": "browserify -t babelify src/tapeTest.js | testling | faucet",
     "testold": "mocha src/index.test.js --compilers js:babel-register",
     "cover": "nyc npm t",

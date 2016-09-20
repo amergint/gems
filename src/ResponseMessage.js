@@ -1,8 +1,8 @@
-import Message from './Message';
+import {Message} from './Message';
 
-export default class ResponseMessage extends Message {
-    constructor(target, result_code) {
-        super(target);
+export class ResponseMessage extends Message {
+    constructor(target, message_type, token, transaction_id, timestamp, result_code) {
+        super(target, message_type, token, transaction_id, timestamp);
         this.result_code = result_code;
     }
 }

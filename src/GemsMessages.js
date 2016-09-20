@@ -1,8 +1,8 @@
-import ResponseMessage from './ResponseMessage'
+import {ResponseMessage} from './ResponseMessage'
 
-export default class GetConfigResponse extends ResponseMessage {
-    constructor(target, result_code) {
-        super(target, result_code);
+export class GetConfigResponse extends ResponseMessage {
+    constructor(target, token, transaction_id, timestamp, result_code) {
+        super(target, 'GET_CONFIG', token, transaction_id, timestamp, result_code);
         this.parameters = null;
     }
 }
