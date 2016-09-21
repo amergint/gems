@@ -1,9 +1,11 @@
+import {Enum} from 'enumify';
+
 /** Base class for representing all gems messages. */
 export class Message {
     /**
      * Create a base GEMS message
      * @param {string} target - The GEMS target name
-     * @param {string} message_type - The GEMS MessageType
+     * @param {@MessageType} message_type - The GEMS MessageType
      * @param {string} token - The GEMS token. This can be an empty string.
      * @param {string} transaction_id - The client specified GEMS transaction id. Replies will contain the same
      * transaction id.
@@ -18,26 +20,14 @@ export class Message {
         this.timestamp = timestamp;
 
         // Test if this is a valid message type
-        console.log('New Message Constructor');
+        console.log("LOG ENUM TYPE:");
         console.log(this.message_type);
-        var messageType = MessageType[this.message_type];
-        console.log(messageType);
-        if (messageType == undefined || messageType <= 0) {
+        if ( !(this.message_type instanceof MessageType) ) {
             console.log("Invalid message type: " + this.message_type + " Defaulting to GET_CONFIG");
-            this.message_type = 'GET_CONFIG';
+            this.message_type = MessageType.GET_CONFIG;
         }
     }
 }
-/*
-export var TestType = function() {
-    return MessageType;
-}
-*/
-export var MessageType = {
-    GET_CONFIG: 1,
-    SET_CONFIG: 2,
-    properties: {
-        1: {name: "GET_CONFIG", value: 1, code:"GET"},
-        2: {name: "SET_CONFIG", value: 2, code: "SET"}
-    }
-};
+
+export class MessageType extends Enum {}
+MessageType.initEnum(['GET_CONFIG', 'SET_CONFIG']);

@@ -18,10 +18,10 @@ test('Creating a base Message class', (assert) => {
     var newMessage = new Message(target, 'wrongtype', token, transaction_id, timestamp);
     assert.notEqual(newMessage.message_type, 'wrongtype');
 
-    Object.keys(MessageType).forEach(function(key,index) {
+    for (const key of MessageType.enumValues) {
         // key: the name of the object key
         // index: the ordinal position of the key within the object
-        console.log(key);
+        console.log("LUIS: " + key);
         newMessage = new Message(target, key, token, transaction_id, timestamp);
         if (key != 'properties') {
             assert.equal(newMessage.message_type, key);
@@ -33,10 +33,10 @@ test('Creating a base Message class', (assert) => {
         }
         newMessage = new GetConfigResponse(target, token, transaction_id, timestamp, resultCode);
         if (key != 'properties') {
-            assert.equal(newMessage.message_type, 'GET_CONFIG');
+            assert.equal(newMessage.message_type, MessageType.GET_CONFIG);
             assert.equal(newMessage.parameters, null);
         }
-    });
+    }
 
     assert.end();
 });
