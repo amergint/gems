@@ -1,10 +1,8 @@
 import test from 'tape';
-import gems from './index';
-import {Message, MessageType} from './Message';
-import {ResponseMessage, ResultCode} from './ResponseMessage';
-import {GetConfigResponse} from './GemsMessages';
-//import MessageType from './Message';
-
+import gems from '../src/index';
+import {Message, MessageType} from '../src/Message';
+import {ResponseMessage, ResultCode} from '../src/ResponseMessage';
+import {GetConfigResponse} from '../src/GemsMessages';
 
 test('Creating a base Message class', (assert) => {
     var target = 'Sys/TestDevice0';
