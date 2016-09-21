@@ -1,8 +1,8 @@
 import test from 'tape';
-import gems from './index';
-import {Message, MessageType} from './Message';
-import {ResponseMessage} from './ResponseMessage';
-import {GetConfigResponse} from './GemsMessages';
+import gems from '../src/index';
+import {Message, MessageType} from '../src/Message';
+import {ResponseMessage} from '../src/ResponseMessage';
+import {GetConfigResponse} from '../src/GemsMessages';
 //import MessageType from './Message';
 
 
