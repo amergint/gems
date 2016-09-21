@@ -3,7 +3,9 @@ import {Enum} from 'enumify';
 /** Base class for representing all gems messages. */
 export class Message {
     /**
-     * Create a base GEMS message
+     * Create a base GEMS message. If the message_type is not a valid
+     * option in the MessageType enumeration it is defaulted to
+     * MessageType.GET_CONFIG.
      * @param {string} target - The GEMS target name
      * @param {@MessageType} message_type - The GEMS MessageType
      * @param {string} token - The GEMS token. This can be an empty string.
@@ -29,5 +31,6 @@ export class Message {
     }
 }
 
+/** MessageType enumeration */
 export class MessageType extends Enum {}
 MessageType.initEnum(['GET_CONFIG', 'SET_CONFIG']);

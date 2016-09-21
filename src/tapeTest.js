@@ -1,7 +1,7 @@
 import test from 'tape';
 import gems from './index';
 import {Message, MessageType} from './Message';
-import {ResponseMessage} from './ResponseMessage';
+import {ResponseMessage, ResultCode} from './ResponseMessage';
 import {GetConfigResponse} from './GemsMessages';
 //import MessageType from './Message';
 
@@ -26,7 +26,12 @@ test('Creating a base Message class', (assert) => {
         if (key != 'properties') {
             assert.equal(newMessage.message_type, key);
         }
-        var resultCode = "test";
+        var resultCode = 'wrongresultcode';
+        newMessage = new ResponseMessage(target, key, token, transaction_id, timestamp, resultCode);
+        if (key != 'properties') {
+            assert.equal(newMessage.result_code, ResultCode.OTHER);
+        }
+        resultCode = ResultCode.SUCCESS;
         newMessage = new ResponseMessage(target, key, token, transaction_id, timestamp, resultCode);
         if (key != 'properties') {
             assert.equal(newMessage.result_code, resultCode);
