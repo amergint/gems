@@ -1,16 +1,15 @@
 import test from 'tape';
 import gems from '../src/index';
 import {Message, MessageType} from '../src/Message';
+import {Parameter} from '../src/Parameter';
 import {ResponseMessage, ResultCode} from '../src/ResponseMessage';
-import {GetConfigResponse} from '../src/GemsMessages';
+import {GetConfigMessage, GetConfigResponse} from '../src/GemsMessages';
 
-test('Creating a base Message class', (assert) => {
+test('Creating base Message classes', (assert) => {
     var target = 'Sys/TestDevice0';
     var token = '';
     var transaction_id = '';
     var timestamp = '';
-    console.log(Message);
-    console.log(MessageType);
 
     // Create a base message with a bad message type
     var newMessage = new Message(target, 'wrongtype', token, transaction_id, timestamp);
@@ -18,8 +17,6 @@ test('Creating a base Message class', (assert) => {
 
     for (const key of MessageType.enumValues) {
         // key: the name of the object key
-        // index: the ordinal position of the key within the object
-        console.log("LUIS: " + key);
         newMessage = new Message(target, key, token, transaction_id, timestamp);
         if (key != 'properties') {
             assert.equal(newMessage.message_type, key);
@@ -41,6 +38,21 @@ test('Creating a base Message class', (assert) => {
         }
     }
 
+    assert.end();
+});
+
+test('Creating get config send and response messages.', (assert) => {
+    var target = 'Sys/TestDevice0';
+    var token = '';
+    var transaction_id = '';
+    var timestamp = '';
+
+    // Create a get config request message
+    var getConfMsg = new GetConfigMessage(target, token, transaction_id, timestamp);
+    getConfMsg.addParameter(new Parameter('TInt', -1));
+    getConfMsg.addParameter('TBits');
+
+    assert.equal(getConfMsg.parameters.length, 2);
     assert.end();
 });
 

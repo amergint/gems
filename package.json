@@ -9,7 +9,8 @@
     "test": "tape test/tapeTest.js -r babel-register ",
     "test-browser": "browserify -t babelify test/tapeTest.js | testling | faucet",
     "testold": "mocha src/index.test.js --compilers js:babel-register",
-    "cover": "nyc npm t",
+    "cover": "nyc --reporter=lcov --reporter=text-lcov npm t",
+    "report": "nyc report",
     "prebuild": "grunt clean",
     "build": "grunt build",
     "buildold": "babel --copy-files --out-dir dist --ignore *.test.js src && browserify -t babelify dist/testingBrowserify.js -o dist/bundle.js"

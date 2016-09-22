@@ -1,5 +1,22 @@
-import {MessageType} from './Message'
+import {Message, MessageType} from './Message'
+import {Parameter} from './Parameter'
 import {ResponseMessage} from './ResponseMessage'
+
+/** GEMS Get config request message class */
+export class GetConfigMessage extends Message {
+    constructor(target, token, transaction_id, timestamp) {
+        super(target, MessageType.GET_CONFIG, token, transaction_id, timestamp);
+        this.parameters = [];
+    }
+
+    addParameter(parameter) {
+        if (typeof parameter === "string") {
+            this.parameters.push(new Parameter(parameter, -1));
+        } else {
+            this.parameters.push(parameter);
+        }
+    }
+}
 
 /** GEMS Get config response message class */
 export class GetConfigResponse extends ResponseMessage {

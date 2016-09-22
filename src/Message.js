@@ -22,8 +22,6 @@ export class Message {
         this.timestamp = timestamp;
 
         // Test if this is a valid message type
-        console.log("LOG ENUM TYPE:");
-        console.log(this.message_type);
         if ( !(this.message_type instanceof MessageType) ) {
             console.log("Invalid message type: " + this.message_type + " Defaulting to GET_CONFIG");
             this.message_type = MessageType.GET_CONFIG;
