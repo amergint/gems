@@ -1,9 +1,12 @@
 import test from 'tape';
+import testDeviceJSONResponse from './TestDevice0.json';
+import testSingleTargetResponse from './getSingleTargetResponse.json';
 import gems from '../src/index';
 import {Message, MessageType} from '../src/Message';
 import {Parameter} from '../src/Parameter';
 import {ResponseMessage, ResultCode} from '../src/ResponseMessage';
 import {GetConfigMessage, GetConfigResponse} from '../src/GemsMessages';
+import nock from 'nock';
 
 test('Creating base Message classes', (assert) => {
     var target = 'Sys/TestDevice0';
@@ -41,7 +44,7 @@ test('Creating base Message classes', (assert) => {
     assert.end();
 });
 
-test('Creating get config send and response messages.', (assert) => {
+test('Creating get config request and response messages.', (assert) => {
     var target = 'Sys/TestDevice0';
     var token = '';
     var transaction_id = '';
@@ -49,15 +52,36 @@ test('Creating get config send and response messages.', (assert) => {
 
     // Create a get config request message
     var getConfMsg = new GetConfigMessage(target, token, transaction_id, timestamp);
+
     getConfMsg.addParameter(new Parameter('TInt', -1));
     getConfMsg.addParameter('TBits');
 
-    assert.equal(getConfMsg.parameters.length, 2);
+    assert.ok(getConfMsg.parameters.hasOwnProperty('TInt'));
+    assert.ok(getConfMsg.parameters.hasOwnProperty('TBits'));
     assert.end();
 });
 
 test('Sending a get configuration message', (assert) => {
-    gems.getConfig('Sys/TestDevice0');
-    assert.pass('Temporary pass message');
+
+    var target = 'Sys/TestDevice0';
+    var getConfigMessage = new GetConfigMessage(target, '', '', '');
+
+    var api = nock("http://localhost")
+        .get("/target/" + getConfigMessage.target)
+        .reply(200, testSingleTargetResponse);
+
+    nock("http://localhost")
+        .put("/getconfig/")
+        .reply(200, testSingleTargetResponse);
+
+    gems.getConfig(getConfigMessage, function(getConfigResponse) {
+        assert.deepEqual(testSingleTargetResponse.params, getConfigResponse.parameters);
+    });
+
+    getConfigMessage.addParameter('TInt');
+    gems.getConfig(getConfigMessage, function(getConfigResponse) {
+        assert.deepEqual(testSingleTargetResponse.params, getConfigResponse.parameters);
+    });
+
     assert.end();
 })

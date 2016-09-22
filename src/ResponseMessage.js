@@ -14,10 +14,12 @@ export class ResponseMessage extends Message {
      * transaction id.
      * @param {string} timestamp - The GEMS message timestamp.
      * @param {@ResultCode} result_code - The GEMS result code.
+     * @param {string} result_description - The GEMS message result description message.
      */
-    constructor(target, message_type, token, transaction_id, timestamp, result_code) {
+    constructor(target, message_type, token, transaction_id, timestamp, result_code, result_description) {
         super(target, message_type, token, transaction_id, timestamp);
         this.result_code = result_code;
+        this.result_description = result_description;
 
         if ( !(this.result_code instanceof ResultCode) ) {
             console.log("Invalid result_code: " + this.result_code + " defaulting to OTHER.");
