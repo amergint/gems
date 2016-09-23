@@ -4,7 +4,9 @@ import http from 'http';
 
 module.exports = {
     //targets: "Tlm0/FrameSync0",
-    getConfig: sendGetConfig
+    getConfig: sendGetConfig,
+    directive: sendDirective,
+    setConfig: sendSetConfig,
 };
 
 function sendGetConfig(getConfigMessage, responseHandler) {
@@ -42,4 +44,38 @@ function sendGetConfig(getConfigMessage, responseHandler) {
             });
         })
     }
+}
+
+function sendSetConfig(target) {
+    ////////////////////////////////////////////////////////
+    // Code to send the message goes here....///////////////
+    ////////////////////////////////////////////////////////
+    var resultCode = ResultCode.enumValueOf(getConfigResponse.result.toUpperCase());
+    var responseMessage =
+        new GetConfigResponse(target, 'token', 'trans_id', 'timestamp', resultCode);
+
+    if (responseMessage.result_code == ResultCode.SUCCESS) {
+        console.log("LUIS!!!");
+
+        responseMessage.parameters = getConfigResponse.targets[target];
+    }
+
+    return responseMessage;
+}
+
+function sendDirective(target) {
+    ////////////////////////////////////////////////////////
+    // Code to send the message goes here....///////////////
+    ////////////////////////////////////////////////////////
+    var resultCode = ResultCode.enumValueOf(getConfigResponse.result.toUpperCase());
+    var responseMessage =
+        new GetConfigResponse(target, 'token', 'trans_id', 'timestamp', resultCode);
+
+    if (responseMessage.result_code == ResultCode.SUCCESS) {
+        console.log("LUIS!!!");
+
+        responseMessage.parameters = getConfigResponse.targets[target];
+    }
+
+    return responseMessage;
 }

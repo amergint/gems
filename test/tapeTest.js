@@ -61,6 +61,36 @@ test('Creating get config request and response messages.', (assert) => {
     assert.end();
 });
 
+test('Creating set config send and response messages.', (assert) => {
+    var target = 'Sys/TestDevice0';
+    var token = '';
+    var transaction_id = '';
+    var timestamp = '';
+
+    // Create a get config request message
+    var setConfMsg = new SetConfigMessage(target, token, transaction_id, timestamp);
+    setConfMsg.addParameter(new Parameter('TInt', -1));
+    setConfMsg.addParameter('TBits');
+
+    assert.equal(setConfMsg.parameters.length, 2);
+    assert.end();
+});
+
+test('Creating directive send and response messages.', (assert) => {
+    var target = 'Sys/TestDevice0';
+    var token = '';
+    var transaction_id = '';
+    var timestamp = '';
+
+    // Create a get config request message
+    var directiveMsg = new DirectiveMessage(target, token, transaction_id, timestamp);
+    directiveMsg.addParameter(new Parameter('TInt', -1));
+    directiveMsg.addParameter('TBits');
+
+    assert.equal(getConfMsg.parameters.length, 2);
+    assert.end();
+});
+
 test('Sending a get configuration message', (assert) => {
 
     var target = 'Sys/TestDevice0';
