@@ -20,6 +20,10 @@ export class GetConfigMessage extends Message {
         this.gemsParameters = {};
     }
 
+    /**
+     * Utility method to quickly add a parameter name for the get config request.
+     * @param parameter - Can either be a string or an instance of {@link Parameter}
+     */
     addParameter(parameter) {
         if (typeof parameter === "string") {
             this.gemsParameters[parameter] = new Parameter(parameter, -1);
@@ -30,6 +34,10 @@ export class GetConfigMessage extends Message {
         }
     }
 
+    /**
+     * Utility method to determine if any parameter names have been added to the message.
+     * @returns {boolean}
+     */
     hasParameters() {
         for (var prop in this.parameters) {
             return true;
@@ -37,6 +45,10 @@ export class GetConfigMessage extends Message {
         return false;
     }
 
+    /**
+     * Utility method that will return an array of the parameter names added to the message.
+     * @returns {Array}
+     */
     getParameterNames() {
         return Object.keys(this.parameters);
     }

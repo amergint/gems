@@ -41,6 +41,14 @@ module.exports = function (grunt) {
                 dest: 'dist/'
             }
         },
+        jsdoc: {
+            dist : {
+                src: ['src/*.js'],
+                options: {
+                    destination: 'doc'
+                }
+            }
+        },
         clean: ["dist"],
         watch: {
             scripts: {
@@ -55,7 +63,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-contrib-clean");
+    grunt.loadNpmTasks("grunt-jsdoc");
 
     grunt.registerTask("default", ["watch"]);
-    grunt.registerTask("build", ["babel", "copy", "browserify"]);
+    grunt.registerTask("build", ["babel", "copy", "browserify", "jsdoc"]);
 };
