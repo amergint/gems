@@ -1,6 +1,6 @@
 {
   "result": "success",
-  "description": "Example get config response with many of the possible GEMS parameter types.",
+  "description": "Example get config response with many of the possible GEMS parameter types. This time with more wieners",
   "target": "Sys/TestDevice0",
   "params": {
     "TArrayBits": [],

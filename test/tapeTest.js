@@ -1,11 +1,16 @@
 import test from 'tape';
 import testDeviceJSONResponse from './TestDevice0.json';
-import testSingleTargetResponse from './getSingleTargetResponse.json';
+import testGetSingleTargetResponse from './getSingleTargetResponse.json';
+import testSetSingleTargetResponse from './TestDeviceSetConfig.json';
+import testDirectiveSingleTargetResponse from './TestDeviceMethod.json';
+import testDirectiveSingleTargetResponseNoParam from './TestDeviceMethodNoParams.json';
 import gems from '../src/index';
 import {Message, MessageType} from '../src/Message';
 import {Parameter} from '../src/Parameter';
 import {ResponseMessage, ResultCode} from '../src/ResponseMessage';
-import {GetConfigMessage, GetConfigResponse} from '../src/GemsMessages';
+import {GetConfigMessage, GetConfigResponse,
+        SetConfigMessage, SetConfigResponse,
+        DirectiveMessage, DirectiveResponse} from '../src/GemsMessages';
 import nock from 'nock';
 
 test('Creating base Message classes', (assert) => {
@@ -72,7 +77,8 @@ test('Creating set config send and response messages.', (assert) => {
     setConfMsg.addParameter(new Parameter('TInt', -1));
     setConfMsg.addParameter('TBits');
 
-    assert.equal(setConfMsg.parameters.length, 2);
+    assert.ok(setConfMsg.parameters.hasOwnProperty('TInt'));
+    assert.ok(setConfMsg.parameters.hasOwnProperty('TBits'));
     assert.end();
 });
 
@@ -87,7 +93,8 @@ test('Creating directive send and response messages.', (assert) => {
     directiveMsg.addParameter(new Parameter('TInt', -1));
     directiveMsg.addParameter('TBits');
 
-    assert.equal(getConfMsg.parameters.length, 2);
+    assert.ok(directiveMsg.parameters.hasOwnProperty('TInt'));
+    assert.ok(directiveMsg.parameters.hasOwnProperty('TBits'));
     assert.end();
 });
 
@@ -98,19 +105,67 @@ test('Sending a get configuration message', (assert) => {
 
     var api = nock("http://localhost")
         .get("/target/" + getConfigMessage.target)
-        .reply(200, testSingleTargetResponse);
+        .reply(200, testGetSingleTargetResponse);
 
     nock("http://localhost")
-        .put("/getconfig/")
-        .reply(200, testSingleTargetResponse);
+        .get("/getconfig/")
+        .reply(200, testGetSingleTargetResponse);
 
+    console.log("With no parameters")
     gems.getConfig(getConfigMessage, function(getConfigResponse) {
-        assert.deepEqual(testSingleTargetResponse.params, getConfigResponse.parameters);
+        assert.deepEqual(testGetSingleTargetResponse.params, getConfigResponse.parameters);
     });
-
+    
+    console.log("With parameters");
     getConfigMessage.addParameter('TInt');
     gems.getConfig(getConfigMessage, function(getConfigResponse) {
-        assert.deepEqual(testSingleTargetResponse.params, getConfigResponse.parameters);
+        assert.deepEqual(testGetSingleTargetResponse.params, getConfigResponse.parameters);
+    });
+
+    assert.end();
+})
+
+test('Sending a set configuration message', (assert) => {
+
+    var target = 'Sys/TestDevice0';
+    var setConfigMessage = new SetConfigMessage(target, '', '', '');
+
+    var api = nock("http://localhost")
+        .put("/target/" + setConfigMessage.target)
+        .reply(200, testSetSingleTargetResponse);
+
+    nock("http://localhost")
+        .put("/setconfig/")
+        .reply(200, testSetSingleTargetResponse);
+
+    gems.setConfig(setConfigMessage, function(setConfigResponse) {
+        assert.deepEqual(testSetSingleTargetResponse.params, setConfigResponse.parameters);
+    });
+
+    setConfigMessage.addParameter('TInt');
+    gems.setConfig(setConfigMessage, function(setConfigResponse) {
+        assert.deepEqual(testSetSingleTargetResponse.params, setConfigResponse.parameters);
+    });
+
+    assert.end();
+})
+
+test('Sending a directive configuration message', (assert) => {
+
+    var target = 'Sys/TestDevice0';
+    var directiveMessage = new DirectiveMessage(target, '', '', '');
+
+    var api = nock("http://localhost")
+        .post("/target/" + directiveMessage.target)
+        .reply(200, testDirectiveSingleTargetResponse);
+
+    nock("http://localhost")
+        .post("/directive/")
+        .reply(200, testDirectiveSingleTargetResponse);
+
+    directiveMessage.addParameter('TInt:15');
+    gems.directive(directiveMessage, function(directiveResponse) {
+        assert.deepEqual(testDirectiveSingleTargetResponse.params, directiveResponse.parameters);
     });
 
     assert.end();

@@ -83,7 +83,7 @@ export class GetConfigResponse extends ResponseMessage {
 }
 
 /** GEMS Get config request message class */
-export class SetConfigMessage extends Message {
+export class SetConfigMessage extends RequestMessage {
     constructor(target, token, transaction_id, timestamp) {
         super(target, MessageType.GET_CONFIG, token, transaction_id, timestamp);
     }
